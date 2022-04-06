@@ -41,6 +41,21 @@ class MyHomePage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Project PDP!'),
           backgroundColor: const ui.Color.fromARGB(255, 18, 32, 18),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Colors.white,
+                 ),
+              onPressed: () {
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                builder: (context) => const LoginPage()),
+                );
+            },
+            child: const Text("Login"),
+          ),
+  ],
         ),
         body: Container(
             width: double.infinity,
@@ -256,3 +271,78 @@ class _UploadPage extends State<UploadPage> {
         ));
   }
 }
+
+class LoginPage extends StatefulWidget {  
+ const LoginPage({Key? key}) : super(key: key);
+  @override  
+  _State createState() => _State();  
+}  
+  
+class _State extends State<LoginPage> {  
+  @override  
+  Widget build(BuildContext context) {  
+    return Scaffold(  
+        appBar: AppBar(
+          title: const Text("Login!"),
+          backgroundColor: const ui.Color.fromARGB(255, 18, 32, 18),
+        ),  
+        body:
+         Container( 
+           width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage('assets/images/background.jpg'),
+              ),
+            ), 
+            padding: const EdgeInsets.all(15),  
+            child: Column(  
+              children: <Widget>[  
+               const Padding(  
+                  padding: EdgeInsets.all(15),  
+                  child: TextField( 
+                    decoration: InputDecoration(  
+                      border:  OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white)
+                          ),  
+                      labelText: 'User Name',  
+                      hintText: 'Enter Your Name', 
+                      prefixIcon: Icon(Icons.person, color: Colors.white,),
+                      hintStyle: TextStyle(color: Colors.white) ,
+                      labelStyle: TextStyle(color: Colors.white),
+                    ),  
+                  ),  
+                ),  
+               const Padding(  
+                  padding: EdgeInsets.all(15),  
+                  child: TextField(  
+                    obscureText: true,  
+                    decoration: InputDecoration(   
+                      labelText: 'Password',  
+                      hintText: 'Enter Password',
+                      hintStyle: TextStyle(color: Colors.white) , 
+                      labelStyle: TextStyle(color: Colors.white),
+                      prefixIcon: Icon(Icons.password, color: Colors.white,),
+                      border:  OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white)
+                          ), 
+                    ),  
+                  ),  
+                ),  
+               ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                     primary: const Color.fromARGB(255, 74, 121, 76),
+                     onPrimary: Colors.white,
+                     ),
+                  child: const Text('Login'),  
+                  onPressed: (){
+                    // I Don't  
+                  },  
+                )  
+              ],  
+            )  
+        )  
+    );  
+  }  
+}  

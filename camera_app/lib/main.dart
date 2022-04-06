@@ -8,7 +8,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 //import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-void main() => runApp(const MyApp());
+/*
+class MyWidgetsBinding extends WidgetsFlutterBinding {
+  @override
+  ImageCache createImageCache() => MyImageCache();
+}
+*/
+void main() {
+  //MyWidgetsBinding();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -38,6 +47,7 @@ class MyHomePage extends StatelessWidget {
             height: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
+                fit: BoxFit.fill,
                 image: AssetImage('assets/images/background.jpg'),
               ),
             ),
@@ -67,6 +77,9 @@ class MyHomePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           SizedBox(
+                              child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 30, right: 70, bottom: 30),
                             child: FloatingActionButton.extended(
                               heroTag: "btn1",
                               backgroundColor:
@@ -77,8 +90,11 @@ class MyHomePage extends StatelessWidget {
                               label:
                                   const Text('Click Images of Diseased Plant'),
                             ),
-                          ),
+                          )),
                           SizedBox(
+                              child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 30, right: 70, bottom: 30),
                             child: FloatingActionButton.extended(
                               heroTag: "btn2",
                               backgroundColor:
@@ -92,7 +108,7 @@ class MyHomePage extends StatelessWidget {
                               },
                               label: const Text('Upload Images'),
                             ),
-                          ),
+                          )),
                         ],
                       ),
                     ]))));
@@ -106,7 +122,14 @@ class MyHomePage extends StatelessWidget {
     if (camImg != null) {
       File? croppedImg = await ImageCropper().cropImage(
           sourcePath: camImg.path,
-          aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1));
+          aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+          compressFormat: ImageCompressFormat.jpg,
+          compressQuality: 100,
+          androidUiSettings: const AndroidUiSettings(
+            toolbarColor: ui.Color.fromARGB(255, 74, 92, 74),
+            statusBarColor: ui.Color.fromARGB(255, 44, 67, 44),
+            backgroundColor: ui.Color.fromARGB(255, 44, 67, 44),
+          ));
       GallerySaver.saveImage(croppedImg!.path);
     }
   }
@@ -134,6 +157,7 @@ class _UploadPage extends State<UploadPage> {
             height: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
+                fit: BoxFit.fill,
                 image: AssetImage('assets/images/background.jpg'),
               ),
             ),
@@ -142,7 +166,7 @@ class _UploadPage extends State<UploadPage> {
                 displayImgs()
               ] else ...[
                 const Spacer(),
-                Image.asset('assets/images/default.jpeg')
+                Image.asset('assets/images/placeholder.png'),
               ],
               const Spacer(),
               Column(
@@ -150,6 +174,8 @@ class _UploadPage extends State<UploadPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
+                        child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
                       child: FloatingActionButton.extended(
                         heroTag: "btn3",
                         elevation: 0.0,
@@ -161,8 +187,10 @@ class _UploadPage extends State<UploadPage> {
                         label: const Text('Return to Home Screen',
                             style: TextStyle(color: Colors.white)),
                       ),
-                    ),
+                    )),
                     SizedBox(
+                        child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
                       child: FloatingActionButton.extended(
                         heroTag: "btn4",
                         elevation: 0.0,
@@ -174,8 +202,10 @@ class _UploadPage extends State<UploadPage> {
                         label: const Text('Choose Images from device',
                             style: TextStyle(color: Colors.white)),
                       ),
-                    ),
+                    )),
                     SizedBox(
+                        child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
                       child: FloatingActionButton.extended(
                         heroTag: "btn5",
                         elevation: 0.0,
@@ -187,18 +217,22 @@ class _UploadPage extends State<UploadPage> {
                         label: const Text('Upload Images to Cloud',
                             style: TextStyle(color: Colors.white)),
                       ),
-                    ),
+                    )),
                   ])
             ])));
   }
 
   final ImagePicker _picker = ImagePicker();
+  List<XFile>? imgs;
   Future selectImg() async {
-    List<XFile>? imgs = await _picker.pickMultiImage();
-    if (imgs != null) {
+    var _imgs = await _picker.pickMultiImage();
+    if (_imgs != null) {
+      imgs = _imgs;
+    }
+    if (display != null) {
       setState(() {
-        for (int i = 0; i < imgs.length; i++) {
-          display!.add(imgs[i].path);
+        for (int i = 0; i < imgs!.length; i++) {
+          display!.add(imgs![i].path);
         }
       });
     }
@@ -213,7 +247,7 @@ class _UploadPage extends State<UploadPage> {
               crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
           itemBuilder: (BuildContext context, int index) {
             if (display != null) {
-              return Image.file(File(display![index]));
+              return Image.file(File(display![index]), key: UniqueKey());
             } else {
               return Image.asset('assets/images/default.jpeg');
             }

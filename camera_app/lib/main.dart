@@ -58,9 +58,10 @@ class MyHomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Plant Disease prediction Application Interface',
+                        'Plant Disease Prediction Application Interface',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 40,
+                            fontSize: 50,
                             foreground: Paint()
                               ..shader = ui.Gradient.linear(
                                 const Offset(0, 20),
@@ -73,13 +74,13 @@ class MyHomePage extends StatelessWidget {
                       ),
                       const Spacer(),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(
                               child: Padding(
                             padding: const EdgeInsets.only(
-                                top: 30, right: 70, bottom: 30),
+                                top: 30, bottom: 30),
                             child: FloatingActionButton.extended(
                               heroTag: "btn1",
                               backgroundColor:
@@ -94,7 +95,7 @@ class MyHomePage extends StatelessWidget {
                           SizedBox(
                               child: Padding(
                             padding: const EdgeInsets.only(
-                                top: 30, right: 70, bottom: 30),
+                                top: 30, bottom: 30),
                             child: FloatingActionButton.extended(
                               heroTag: "btn2",
                               backgroundColor:
